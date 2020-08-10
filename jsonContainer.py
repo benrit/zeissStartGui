@@ -51,24 +51,26 @@ class JsonContainer:
             return {"Dialog": dialogEntries, "Setup":setupEntries}
             
     def saveXML(self):
+        jsonDialogData = self._jsonData['Dialog']
+        jsonSetupData = self._jsonData['Dialog']
         xmlData = f'''<?xml version="1.0" encoding="UTF-8"?>
 <cmmApp>
     <dialog>
-        <name>{self._jsonData['Dialog'].get('name')}</name>
-        <partID>{self._jsonData['Dialog'].get('partID')}</partID>
-        <MSN>{self._jsonData['Dialog'].get('MSN')}</MSN>
-        <cavNo>{self._jsonData['Dialog'].get('cavNo')}</cavNo>
-        <operation>{self._jsonData['Dialog'].get('operation')}</operation>
-        <xOffset>{self._jsonData['Dialog'].get('xOffset')}</xOffset>
-        <yOffset>{self._jsonData['Dialog'].get('yOffset')}</yOffset>
-        <zOffset>{self._jsonData['Dialog'].get('zOffset')}</zOffset>
-        <WO>{self._jsonData['Dialog'].get('WO')}</WO>
-        <comment>{self._jsonData['Dialog'].get('comment')}</comment>
+        <name>{jsonDialogData.get('name')}</name>
+        <partID>{jsonDialogData.get('partID')}</partID>
+        <MSN>{jsonDialogData.get('MSN')}</MSN>
+        <cavNo>{jsonDialogData.get('cavNo')}</cavNo>
+        <operation>{jsonDialogData.get('operation')}</operation>
+        <xOffset>{jsonDialogData.get('xOffset')}</xOffset>
+        <yOffset>{jsonDialogData.get('yOffset')}</yOffset>
+        <zOffset>{jsonDialogData.get('zOffset')}</zOffset>
+        <WO>{jsonDialogData.get('WO')}</WO>
+        <comment>{jsonDialogData.get('comment')}</comment>
     </dialog>
     <Setup>
-        <nominalXoffset>{self._jsonData['Setup'].get('nominalXoffset')}</nominalXoffset>
-        <nominalYoffset>{self._jsonData['Setup'].get('nominalYoffset')}</nominalYoffset>
-        <nominalZoffset>{self._jsonData['Setup'].get('nominalZoffset')}</nominalZoffset>
+        <nominalXoffset>{jsonSetupData.get('nominalXoffset')}</nominalXoffset>
+        <nominalYoffset>{jsonSetupData.get('nominalYoffset')}</nominalYoffset>
+        <nominalZoffset>{jsonSetupData.get('nominalZoffset')}</nominalZoffset>
     </Setup>
 </cmmApp>'''
 
