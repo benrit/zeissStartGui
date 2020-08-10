@@ -1,0 +1,2 @@
+starttime =  millisecondClockValue() / 1000
+copyScanData = 0

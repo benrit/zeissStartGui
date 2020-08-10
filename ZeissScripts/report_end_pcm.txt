@@ -1,0 +1,31 @@
+endtime =  millisecondClockValue() / 1000
+planid = getRecordHead("planid")
+dmesn = getRecordHead("dmesn")
+
+
+   rd = "o:\\Measurement\\Results\\"
+   pd = "o:\\Measurement\\Program\\"
+   fd = "c:\\temp\\results\\"
+//   aid = getActualInspectionDir() + "\\temp\\geoactuals\\"
+
+//   parameters = " -fd " + fd
+//if (dmesn <> "501717") then
+    systemCallWithWait("O:\\Measurement\\Scripts\\zeiss\\python.exe o:\\Measurement\\Scripts\\ZeissConverter\\ZeissConverter.py" + " -fd " + fd + " -rd " + "O:\\Measurement\\_resultDatabase\\" + " -f " + chr(34)+planid + chr(34)+" -pd " + rd)
+//endif
+	systemCallWithWait("C:\\ZEISS\\cmmApp\\zeissConverter.exe" + " -rd " + rd + " -pd " + pd + " -f " + chr(34) + planid + chr(34) + " -fd " + fd)
+
+
+timediff = endtime - starttime
+
+addToFile(pd+"RunTime_"+dmesn+".txt" ,dateInNumbers() , ",", timeInSeconds(), "," , planid, "," , timediff)
+
+if (copyScanData == 1)
+   scanDir = getActualInspectionDir()
+   msnNum = getRecordHead("order")
+   sourceDir = scanDir + "\\temp\\geoactuals\\*"
+   targetDir = rd + planid + "\\" + msnNum + "\\"
+   systemCallWithWait("cmd /c mkdir " + targetDir)
+   systemCallWithWait("cmd /c copy " + sourceDir + " " + targetDir)
+endif
+
+systemCall("cmd.exe /c O:\\Measurement\\Scripts\\ZeissConverter\\deleteTemp.cmd")

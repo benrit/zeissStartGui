@@ -1,0 +1,12 @@
+planid = getRecordHead("planid")
+dmesn = getRecordHead("dmesn")
+rd = "O:\Measurement\Results\"
+pd = "O:\Measurement\Program\"
+fd = "C:\temp\results\"
+
+if (dmesn <> "000000") then
+	systemCallWithWait("C:\ZEISS\cmmApp\cmmDialog1_5.exe" + " -rd " + rd + " -pd " + pd + " -f " + chr(34) + planid + chr(34) + " -fd " + fd)
+else
+    pd = getActualInspectionDir()
+    systemCallWithWait("c:\zeiss\zeiss\pythonw O:\Measurement\Scripts\ZeissStartGui\zeissStartGui.py" + " -rd " + rd + " -pd " + pd + " -f " + chr(34) + planid + chr(34))
+endif
