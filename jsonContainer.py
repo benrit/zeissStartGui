@@ -4,7 +4,7 @@ from lxml import etree as ET
 
 
 def calc(nominal, actual):
-    return actual if nominal==0 else nominal - actual
+    return actual if nominal==0 else (nominal - actual)
 
 
 class JsonContainer:
