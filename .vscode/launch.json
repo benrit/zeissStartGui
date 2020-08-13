@@ -16,12 +16,12 @@
             "type": "python",
             "request": "launch",
             "program": "${file}",
-            "console": "externalTerminal",
+            "console": "integratedTerminal",
             "args": [
                 "-pd",
-                "o:\\Measurement\\progam\\test test\\",
-                "-f",
-                "test test"
+                "O:/Measurement/Program/test test",
+                 "-f",
+                 "new second test"
             ]
         }
     ]

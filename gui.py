@@ -182,7 +182,8 @@ class Ui_Dialog(object):
                         "endRun": "",
                         "operation": self.comboBoxOperation.currentText(),
                         "tags": self.lineEditTags.text(),
-                        "fileIndex": "MSN"
+                        "fileIndex": "MSN",
+                        "status": "ok"
                         }
                 }
         return data

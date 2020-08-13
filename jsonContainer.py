@@ -12,14 +12,14 @@ class JsonContainer:
         self._jsonData = {}
         self.filepath = filepath
         self.planFolder = planFolder
-        self.dialogFilepath = os.path.abspath("\\".join(["O:\\Measurement\\_resultDatabase", planId, "dialog.json"]))
+        self.dialogFilepath = os.path.abspath("\\".join(["O:\\Measurement\\_resultDatabase", planId]))
 
-        if os.path.isfile(self.dialogFilepath):
+        if os.path.isfile(self.dialogFilepath + "\\dialog.json"):
             print(f"loading {self.dialogFilepath}")
-            with open(self.dialogFilepath, 'r') as inFile:
+            with open(self.dialogFilepath + "\\dialog.json", 'r') as inFile:
                 self._jsonData = json.load(inFile)
         else:
-            self._jsonData = {"Dialog" : {"name":"","MSN":"","cavNo":"","partID":planId,"WO":"","SO":"","comment":"","startRun":"", "endRun":"" ,"xOffset":"0.0000","yOffset":"0.0000","zOffset":"0.0000","operation":"default", "fileIndex":"MSN"}, 
+            self._jsonData = {"Dialog" : {"name":"","MSN":"","cavNo":"","partID":planId,"WO":"","SO":"","comment":"","startRun":"", "endRun":"" ,"xOffset":"0.0000","yOffset":"0.0000","zOffset":"0.0000","operation":"default", "fileIndex":"MSN", "status":"ok"}, 
                             "Setup":{"nominalXoffset": "0.0000","nominalYoffset": "0.0000","nominalZoffset": "0.0000"}}
 
     def update(self, data):
@@ -86,13 +86,16 @@ class JsonContainer:
         nominalYOffset = float(self._jsonData.get('Setup').get('nominalYoffset'))
         nominalZOffset = float(self._jsonData.get('Setup').get('nominalZoffset'))
 
-        with open(self.planFolder + "/inspection_start_pcm.txt", "w") as ispFile:
+        with open(self.planFolder + "\\inspection_start_pcm.txt", "w") as ispFile:
             ispFile.write(f'xOffset = {round(calc(nominalXOffset, xOffset), 4)}\n')
             ispFile.write(f'yOffset = {round(calc(nominalYOffset, yOffset), 4)}\n')
             ispFile.write(f'zOffset = {round(calc(nominalZOffset, zOffset), 4)}\n')
             ispFile.write(f'setRecordHead("order","{self._jsonData.get("Dialog").get("MSN")}")')
 
-        with open(self.dialogFilepath, 'w') as file:
+        if not os.path.exists(self.dialogFilepath):
+            os.makedirs(self.dialogFilepath)
+
+        with open(self.dialogFilepath+ "\\dialog.json", 'w') as file:
             json.dump(self._jsonData, file, indent=2)
 
     def readJson(self, data):

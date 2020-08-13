@@ -21,10 +21,10 @@ def setupDialog(jsonData):
 resultFolder = "O:/Measurement/Results/"
 
 if __name__ == "__main__":
-    print("sys.argv" + ",".join(sys.argv))
+    print("sys.argv " + " ".join(sys.argv))
     for x, arg in enumerate(sys.argv):
         if "-pd" in arg:
-            currentPlanFolder = os.path.realpath(sys.argv[x+1])
+            currentPlanFolder = sys.argv[x+1]
             print("current Plan Folder " + currentPlanFolder)
 
         if "-f" in arg:
