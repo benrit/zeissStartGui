@@ -56,6 +56,17 @@ class SetupDialog(QtWidgets.QDialog):
         self.horizontalLayout = QtWidgets.QHBoxLayout()
         self.horizontalLayout.setObjectName("horizontalLayout")
         self.verticalLayout_2.addLayout(self.horizontalLayout)
+
+        self.horizontalLayout_6 = QtWidgets.QHBoxLayout()
+        self.horizontalLayout_6.setObjectName("horizontalLayout_6")
+        self.index = QtWidgets.QLabel(self)
+        self.index.setMinimumSize(QtCore.QSize(80, 0))
+        
+        self.horizontalLayout_6.addWidget(self.index)
+        self.comboBoxIndex = QtWidgets.QComboBox(self)
+        self.horizontalLayout_6.addWidget(self.comboBoxIndex)
+        self.verticalLayout_2.addLayout(self.horizontalLayout_6)
+
         self.buttonBox = QtWidgets.QDialogButtonBox(self)
         self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
         self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel|QtWidgets.QDialogButtonBox.Ok)
@@ -73,13 +84,16 @@ class SetupDialog(QtWidgets.QDialog):
         self.labelNomXOffset.setText(_translate("Dialog", "Nominal X Offset"))
         self.labelNomYOffset.setText(_translate("Dialog", "Nominal Y Offset"))
         self.labelNomZOffset.setText(_translate("Dialog", "Nominal Z Offset"))
+        self.index.setText(_translate("Dialog", "Index"))
+        self.comboBoxIndex.addItems(["MSN", "cavNo", "partnb"])
         
-    
+        
     def setData(self, data):
         jsonData = data._jsonData
         self.lineEditNomXOffset.setText(jsonData["Setup"].get("nominalXoffset", '0.0000'))
         self.lineEditNomYOffset.setText(jsonData["Setup"].get("nominalYoffset", '0.0000'))
         self.lineEditNomZOffset.setText(jsonData["Setup"].get("nominalZoffset", '0.0000'))
+        self.comboBoxIndex.setCurrentText(jsonData["Setup"].get("fileIndex", "MSN"))
         
 
     def getData(self):
@@ -87,7 +101,9 @@ class SetupDialog(QtWidgets.QDialog):
                 'nominalXoffset': self.lineEditNomXOffset.text(),
                 'nominalYoffset': self.lineEditNomYOffset.text(),
                 'nominalZoffset': self.lineEditNomZOffset.text(),
-            }
+                'fileIndex': self.comboBoxIndex.currentText()
+            },
+            "Export": ""
         }
         
 

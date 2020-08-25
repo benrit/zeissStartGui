@@ -19,8 +19,9 @@ class JsonContainer:
             with open(self.dialogFilepath + "\\dialog.json", 'r') as inFile:
                 self._jsonData = json.load(inFile)
         else:
-            self._jsonData = {"Dialog" : {"name":"","MSN":"","cavNo":"","partID":planId,"WO":"","SO":"","comment":"","startRun":"", "endRun":"" ,"xOffset":"0.0000","yOffset":"0.0000","zOffset":"0.0000","operation":"default", "fileIndex":"MSN", "status":"ok"}, 
-                            "Setup":{"nominalXoffset": "0.0000","nominalYoffset": "0.0000","nominalZoffset": "0.0000"}}
+            self._jsonData = {"Dialog" : {"name":"","MSN":"","cavNo":"","partID":planId,"WO":"","SO":"","comment":"","startRun":"", "endRun":"" ,"xOffset":"0.0000","yOffset":"0.0000","zOffset":"0.0000","operation":"default", "status":"ok"}, 
+                            "Setup":{"nominalXoffset": "0.0000","nominalYoffset": "0.0000","nominalZoffset": "0.0000", "fileIndex":"MSN"},
+                            "Export":""}
 
     def update(self, data):
         if isinstance(data, dict):

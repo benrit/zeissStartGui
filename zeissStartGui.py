@@ -42,7 +42,7 @@ if __name__ == "__main__":
     window = QDialog()
     ui = Ui_Dialog()
     ui.setupUi(window)
-    ui.setOperations(["default","EDM","EDM Ingersol 781","EDM Ingersol 782","EDM Charmilles 550","WireEDM","WireEDM Cut 2000","WireEDM Charmilles 440", "HSC","Grinding","Jig-Grinding","Cylindrical Grinding","Turning","Milling","Polishing","Assembly","Repair","Final Measurement" ])
+    ui.setOperations(["default", "Setup", "EDM","EDM Ingersol 781","EDM Ingersol 782","EDM Charmilles 550","WireEDM","WireEDM Cut 2000","WireEDM Charmilles 440", "HSC","Grinding","Jig-Grinding","Cylindrical Grinding","Turning","Milling","Polishing","Assembly","Repair","Final Measurement" ])
     ui.update(jsonData.getData())
     ui.buttonBox.accepted.connect(lambda: saveDialog(jsonData, ui))
     ui.toolButton.pressed.connect(lambda: setupDialog(jsonData))
