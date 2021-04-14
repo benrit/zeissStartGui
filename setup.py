@@ -85,7 +85,7 @@ class SetupDialog(QtWidgets.QDialog):
         self.labelNomYOffset.setText(_translate("Dialog", "Nominal Y Offset"))
         self.labelNomZOffset.setText(_translate("Dialog", "Nominal Z Offset"))
         self.index.setText(_translate("Dialog", "Index"))
-        self.comboBoxIndex.addItems(["MSN", "cavNo", "partnb"])
+        self.comboBoxIndex.addItems(["MSN", "CAV", "partnb"])
         
         
     def setData(self, data):

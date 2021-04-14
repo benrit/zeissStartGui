@@ -19,7 +19,7 @@ class JsonContainer:
             with open(self.dialogFilepath + "\\dialog.json", 'r') as inFile:
                 self._jsonData = json.load(inFile)
         else:
-            self._jsonData = {"Dialog" : {"name":"","MSN":"","cavNo":"","partID":planId,"WO":"","SO":"","comment":"","startRun":"", "endRun":"" ,"xOffset":"0.0000","yOffset":"0.0000","zOffset":"0.0000","operation":"default", "status":"ok"}, 
+            self._jsonData = {"Dialog" : {"name":"","MSN":"","CAV":"","partID":planId,"WO":"","SO":"","comment":"","startRun":"", "endRun":"" ,"xOffset":"0.0000","yOffset":"0.0000","zOffset":"0.0000","operation":"default", "status":"ok"}, 
                             "Setup":{"nominalXoffset": "0.0000","nominalYoffset": "0.0000","nominalZoffset": "0.0000", "fileIndex":"MSN"},
                             "Export":""}
 
@@ -60,7 +60,7 @@ class JsonContainer:
         <name>{jsonDialogData.get('name')}</name>
         <partID>{jsonDialogData.get('partID')}</partID>
         <MSN>{jsonDialogData.get('MSN')}</MSN>
-        <cavNo>{jsonDialogData.get('cavNo')}</cavNo>
+        <cavNo>{jsonDialogData.get('CAV')}</cavNo>
         <operation>{jsonDialogData.get('operation')}</operation>
         <xOffset>{jsonDialogData.get('xOffset')}</xOffset>
         <yOffset>{jsonDialogData.get('yOffset')}</yOffset>

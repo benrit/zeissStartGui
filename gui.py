@@ -8,7 +8,7 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-from mWitgets import NumberEdit
+from mWitgets import NumberEdit, ComboBox, MSNEdit
 
 import time, json
 
@@ -36,7 +36,7 @@ class Ui_Dialog(object):
         self.labelMSN = QtWidgets.QLabel(self.groupBox)
         self.labelMSN.setMinimumSize(QtCore.QSize(80, 0))
         self.horizontalLayout_2.addWidget(self.labelMSN)
-        self.lineEditMSN = QtWidgets.QLineEdit(self.groupBox)
+        self.lineEditMSN = MSNEdit(self.groupBox)
         self.horizontalLayout_2.addWidget(self.lineEditMSN)
         self.verticalLayout.addLayout(self.horizontalLayout_2)
 
@@ -51,8 +51,10 @@ class Ui_Dialog(object):
         self.horizontalLayout_4 = QtWidgets.QHBoxLayout()
         self.labelPartId = QtWidgets.QLabel(self.groupBox)
         self.labelPartId.setMinimumSize(QtCore.QSize(80, 0))
+        
         self.horizontalLayout_4.addWidget(self.labelPartId)
         self.lineEditPartId = QtWidgets.QLineEdit(self.groupBox)
+        self.lineEditPartId.setReadOnly(True)
         self.horizontalLayout_5 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_4.addWidget(self.lineEditPartId)
         self.verticalLayout.addLayout(self.horizontalLayout_4)
@@ -74,7 +76,7 @@ class Ui_Dialog(object):
         self.labelOperation.setMinimumSize(QtCore.QSize(80, 0))
         self.labelOperation.setMaximumSize(QtCore.QSize(80, 16777215))
         self.horizontalLayout_6.addWidget(self.labelOperation)
-        self.comboBoxOperation = QtWidgets.QComboBox(self.groupBox)
+        self.comboBoxOperation = ComboBox(self.groupBox)
         self.horizontalLayout_6.addWidget(self.comboBoxOperation)
         self.verticalLayout.addLayout(self.horizontalLayout_6)
         self.horizontalLayout_10 = QtWidgets.QHBoxLayout()
@@ -134,8 +136,7 @@ class Ui_Dialog(object):
         QtCore.QMetaObject.connectSlotsByName(Dialog)
         Dialog.setTabOrder(self.lineEditName, self.lineEditMSN)
         Dialog.setTabOrder(self.lineEditMSN, self.lineEditCav)
-        Dialog.setTabOrder(self.lineEditCav, self.lineEditPartId)
-        Dialog.setTabOrder(self.lineEditPartId, self.lineEditWO)
+        Dialog.setTabOrder(self.lineEditCav, self.lineEditWO)
         Dialog.setTabOrder(self.lineEditWO, self.lineEditSO)
         Dialog.setTabOrder(self.lineEditSO, self.comboBoxOperation)
         Dialog.setTabOrder(self.comboBoxOperation, self.lineEditZOffset)
@@ -163,15 +164,28 @@ class Ui_Dialog(object):
         self.toolButton.setText(_translate("Dialog", "Setup"))
 
     def setOperations(self, data):
-        for item in data:
+        for index, item in enumerate(data):
             self.comboBoxOperation.addItem(item)
+            if item == "Setup":
+                idx = self.comboBoxOperation.model().index(index, 0)
+                self.comboBoxOperation.model().setData(idx, QtGui.QColor(255,0,0), QtCore.Qt.BackgroundRole)
+                self.comboBoxOperation.model().setData(idx, QtGui.QColor(255, 255, 255), QtCore.Qt.TextColorRole)
+
+            if item == "Final Measurement":
+                idx = self.comboBoxOperation.model().index(index, 0)
+                self.comboBoxOperation.model().setData(idx, QtGui.QColor(0,255,0), QtCore.Qt.BackgroundRole)
+
+            if item == "default":
+                idx = self.comboBoxOperation.model().index(index, 0)
+                self.comboBoxOperation.model().setData(idx, QtGui.QColor(0,0,255), QtCore.Qt.BackgroundRole)
+                self.comboBoxOperation.model().setData(idx, QtGui.QColor(255,255,255), QtCore.Qt.TextColorRole)
 
     def getData(self):
         data = {"Dialog":{
                         "name": self.lineEditName.text(),
                         "partID": self.lineEditPartId.text(),
                         "MSN": self.lineEditMSN.text(),
-                        "cavNo": self.lineEditCav.text(),
+                        "CAV": self.lineEditCav.text(),
                         "xOffset": self.lineEditXOffset.text(),
                         "yOffset": self.lineEditYOffset.text(),
                         "zOffset": self.lineEditZOffset.text(),
@@ -182,7 +196,7 @@ class Ui_Dialog(object):
                         "endRun": "",
                         "operation": self.comboBoxOperation.currentText(),
                         "tags": self.lineEditTags.text(),
-                        "status": "ok"
+                        "status": "measured"
                         }
                 }
         return data
@@ -192,7 +206,7 @@ class Ui_Dialog(object):
             if x == "Dialog":
                 self.lineEditName.setText(data["Dialog"].get("name"))
                 self.lineEditMSN.setText(data["Dialog"].get("MSN"))
-                self.lineEditCav.setText(data["Dialog"].get("cavNo"))
+                self.lineEditCav.setText(data["Dialog"].get("CAV"))
                 self.lineEditPartId.setText(data["Dialog"].get("partID"))
                 self.lineEditWO.setText(data["Dialog"].get("WO"))
                 self.lineEditSO.setText(data["Dialog"].get("SO"))
