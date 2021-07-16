@@ -3,13 +3,14 @@ from PyQt5.QtWidgets import QApplication, QDialog
 from gui import Ui_Dialog
 from setup import SetupDialog
 from jsonContainer import JsonContainer
-
+import time
 
 def saveDialog(jsonData, data):
     jsonData.update(data.getData())
     jsonData.save()
     jsonData.saveXML()
 
+    
 def setupDialog(jsonData):
     setup = SetupDialog()
     setup.setupUi()

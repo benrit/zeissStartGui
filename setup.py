@@ -60,12 +60,22 @@ class SetupDialog(QtWidgets.QDialog):
         self.horizontalLayout_6 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_6.setObjectName("horizontalLayout_6")
         self.index = QtWidgets.QLabel(self)
-        self.index.setMinimumSize(QtCore.QSize(80, 0))
+        self.index.setMinimumSize(QtCore.QSize(40, 0))
         
         self.horizontalLayout_6.addWidget(self.index)
         self.comboBoxIndex = QtWidgets.QComboBox(self)
         self.horizontalLayout_6.addWidget(self.comboBoxIndex)
         self.verticalLayout_2.addLayout(self.horizontalLayout_6)
+
+        self.horizontalLayout_7 = QtWidgets.QHBoxLayout()
+        self.horizontalLayout_7.setObjectName("horizontalLayout_7")
+        self.importScanLabel = QtWidgets.QLabel(self)
+        self.importScanLabel.setMinimumSize(QtCore.QSize(40, 0))
+        self.horizontalLayout_7.addWidget(self.importScanLabel)
+
+        self.importScanCheckBox = QtWidgets.QCheckBox(self)
+        self.horizontalLayout_7.addWidget(self.importScanCheckBox)
+        self.verticalLayout_2.addLayout(self.horizontalLayout_7)
 
         self.buttonBox = QtWidgets.QDialogButtonBox(self)
         self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
@@ -85,6 +95,7 @@ class SetupDialog(QtWidgets.QDialog):
         self.labelNomYOffset.setText(_translate("Dialog", "Nominal Y Offset"))
         self.labelNomZOffset.setText(_translate("Dialog", "Nominal Z Offset"))
         self.index.setText(_translate("Dialog", "Index"))
+        self.importScanLabel.setText(_translate("Dialog", "Import Scan"))
         self.comboBoxIndex.addItems(["MSN", "CAV", "partnb"])
         
         
@@ -94,14 +105,17 @@ class SetupDialog(QtWidgets.QDialog):
         self.lineEditNomYOffset.setText(jsonData["Setup"].get("nominalYoffset", '0.0000'))
         self.lineEditNomZOffset.setText(jsonData["Setup"].get("nominalZoffset", '0.0000'))
         self.comboBoxIndex.setCurrentText(jsonData["Setup"].get("fileIndex", "MSN"))
-        
+        self.importScanCheckBox.setChecked(jsonData['Setup'].get("importScan", False))
+
+
 
     def getData(self):
         return {'Setup':{
                 'nominalXoffset': self.lineEditNomXOffset.text(),
                 'nominalYoffset': self.lineEditNomYOffset.text(),
                 'nominalZoffset': self.lineEditNomZOffset.text(),
-                'fileIndex': self.comboBoxIndex.currentText()
+                'fileIndex': self.comboBoxIndex.currentText(),
+                'importScan': self.importScanCheckBox.isChecked()
             },
             "Export": ""
         }
