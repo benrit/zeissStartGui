@@ -21,6 +21,10 @@ def setupDialog(jsonData):
 
 resultFolder = "O:/Measurement/Results/"
 
+currentPlanFolder = "O:\\Measurement\\Program\\test"
+planid = "test"
+
+
 if __name__ == "__main__":
     print("sys.argv " + " ".join(sys.argv))
     for x, arg in enumerate(sys.argv):

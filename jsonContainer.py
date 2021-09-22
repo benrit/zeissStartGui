@@ -20,7 +20,7 @@ class JsonContainer:
                 self._jsonData = json.load(inFile)
         else:
             self._jsonData = {"Dialog" : {"name":"","MSN":"","CAV":"","partID":planId,"WO":"","SO":"","comment":"","startRun":"", "endRun":"" ,"xOffset":"0.0000","yOffset":"0.0000","zOffset":"0.0000","operation":"default", "status":"ok"}, 
-                            "Setup":{"nominalXoffset": "0.0000","nominalYoffset": "0.0000","nominalZoffset": "0.0000", "fileIndex":"MSN"},
+                            "Setup":{"nominalXoffset": "0.0000","nominalYoffset": "0.0000","nominalZoffset": "0.0000", "fileIndex":"MSN", "importScan": False, "autorun": False},
                             "Export":""}
 
     def update(self, data):
@@ -87,17 +87,28 @@ class JsonContainer:
         nominalYOffset = float(self._jsonData.get('Setup').get('nominalYoffset'))
         nominalZOffset = float(self._jsonData.get('Setup').get('nominalZoffset'))
 
-        importScan = float(self._jsonData.get('Setup').get('importScan'))
-
+        importScan = int(self._jsonData.get('Setup').get('importScan', 0))
+        autorun = int(self._jsonData.get('Setup').get('autorun', 0))
 
         with open(self.planFolder + "\\inspection_start_pcm.txt", "w") as ispFile:
             ispFile.write(f'xOffset = {round(calc(nominalXOffset, xOffset), 4)}\n')
             ispFile.write(f'yOffset = {round(calc(nominalYOffset, yOffset), 4)}\n')
             ispFile.write(f'zOffset = {round(calc(nominalZOffset, zOffset), 4)}\n')
-            ispFile.write(f'setRecordHead("order","{self._jsonData.get("Dialog").get("MSN")}")\n')
+            if autorun == 0:
+                ispFile.write(f'setRecordHead("order","{self._jsonData.get("Dialog").get("MSN")}")\n')
             ispFile.write("starttime =  millisecondClockValue() / 1000\n")
-            ispFile.write(f"copyScanData = {int(importScan)}")
-
+            ispFile.write(f"copyScanData = {importScan}\n")
+            ispFile.write(f"useConverter = true\n")
+            if autorun == 1:
+                fileIndex = self._jsonData['Setup'].get("fileIndex", 'MSN')
+                if fileIndex == 'MSN':
+                    ispFile.write(f"autorun = 1\n")
+                if fileIndex == 'CAV':
+                    ispFile.write(f"autorun = 2\n")
+                if fileIndex == 'partnb':
+                    ispFile.write(f"autorun = 3\n")
+            else:
+                ispFile.write(f"autorun = 0\n")
 
         if not os.path.exists(self.dialogFilepath):
             os.makedirs(self.dialogFilepath)

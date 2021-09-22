@@ -77,6 +77,19 @@ class SetupDialog(QtWidgets.QDialog):
         self.horizontalLayout_7.addWidget(self.importScanCheckBox)
         self.verticalLayout_2.addLayout(self.horizontalLayout_7)
 
+
+        self.horizontalLayout_8 = QtWidgets.QHBoxLayout()
+        self.horizontalLayout_8.setObjectName("horizontalLayout_8")
+        self.autorunLabel = QtWidgets.QLabel(self)
+        self.autorunLabel.setMinimumSize(QtCore.QSize(40, 0))
+        self.horizontalLayout_8.addWidget(self.autorunLabel)
+
+        self.autorunCheckBox = QtWidgets.QCheckBox(self)
+        self.horizontalLayout_8.addWidget(self.autorunCheckBox)
+        self.verticalLayout_2.addLayout(self.horizontalLayout_8)
+
+
+
         self.buttonBox = QtWidgets.QDialogButtonBox(self)
         self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
         self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel|QtWidgets.QDialogButtonBox.Ok)
@@ -96,6 +109,7 @@ class SetupDialog(QtWidgets.QDialog):
         self.labelNomZOffset.setText(_translate("Dialog", "Nominal Z Offset"))
         self.index.setText(_translate("Dialog", "Index"))
         self.importScanLabel.setText(_translate("Dialog", "Import Scan"))
+        self.autorunLabel.setText(_translate("Dialog", "Autorun"))
         self.comboBoxIndex.addItems(["MSN", "CAV", "partnb"])
         
         
@@ -106,6 +120,7 @@ class SetupDialog(QtWidgets.QDialog):
         self.lineEditNomZOffset.setText(jsonData["Setup"].get("nominalZoffset", '0.0000'))
         self.comboBoxIndex.setCurrentText(jsonData["Setup"].get("fileIndex", "MSN"))
         self.importScanCheckBox.setChecked(jsonData['Setup'].get("importScan", False))
+        self.autorunCheckBox.setChecked(jsonData['Setup'].get('autorun', False))
 
 
 
@@ -115,7 +130,8 @@ class SetupDialog(QtWidgets.QDialog):
                 'nominalYoffset': self.lineEditNomYOffset.text(),
                 'nominalZoffset': self.lineEditNomZOffset.text(),
                 'fileIndex': self.comboBoxIndex.currentText(),
-                'importScan': self.importScanCheckBox.isChecked()
+                'importScan': self.importScanCheckBox.isChecked(),
+                'autorun': self.autorunCheckBox.isChecked()
             },
             "Export": ""
         }
