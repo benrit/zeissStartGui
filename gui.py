@@ -9,6 +9,8 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from mWitgets import NumberEdit, ComboBox, MSNEdit
+import random
+import string
 
 import time, json
 
@@ -103,11 +105,14 @@ class Ui_Dialog(object):
         self.horizontalLayout_11 = QtWidgets.QHBoxLayout()
         self.labelTags = QtWidgets.QLabel(self.groupBox)
         self.horizontalLayout_11.addWidget(self.labelTags)
+
         self.lineEditTags = QtWidgets.QLineEdit(self.groupBox)
         self.lineEditTags.setMinimumSize(QtCore.QSize(100, 0))
-    
         self.horizontalLayout_11.addWidget(self.lineEditTags)
         self.verticalLayout.addLayout(self.horizontalLayout_11)
+        self.generateRandomNumberButton = QtWidgets.QPushButton("Generate")
+        self.horizontalLayout_11.addWidget(self.generateRandomNumberButton)
+
 
         self.horizontalLayout_7.addWidget(self.groupBox)
         self.groupBox_2 = QtWidgets.QGroupBox(Dialog)
@@ -133,6 +138,8 @@ class Ui_Dialog(object):
         self.retranslateUi(Dialog)
         self.buttonBox.accepted.connect(Dialog.accept)
         self.buttonBox.rejected.connect(Dialog.reject)
+        self.generateRandomNumberButton.clicked.connect(self.generateRandomNumber)
+
         QtCore.QMetaObject.connectSlotsByName(Dialog)
         Dialog.setTabOrder(self.lineEditName, self.lineEditMSN)
         Dialog.setTabOrder(self.lineEditMSN, self.lineEditCav)
@@ -162,6 +169,10 @@ class Ui_Dialog(object):
         self.labelTags.setText(_translate("Dialog", "Tags"))
         self.groupBox_2.setTitle(_translate("Dialog", "Comments"))
         self.toolButton.setText(_translate("Dialog", "Setup"))
+
+    def generateRandomNumber(self):
+        output_string = ''.join(random.SystemRandom().choice(string.ascii_letters + string.digits) for _ in range(10))
+        self.lineEditTags.setText(output_string)
 
     def setOperations(self, data):
         for index, item in enumerate(data):
