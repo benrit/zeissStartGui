@@ -230,7 +230,7 @@ class Ui_Dialog(object):
                 if index > -1:
                     self.comboBoxOperation.setCurrentIndex(index)
             
-            if x == "updateWO":
+            if x == "updateSOWO":
                 print(data)
                 self.lineEditWO.setText(data["updateWO"].get("WO"))
-                self.lineEditSO.setText(data["updateWO"].get("SO"))
+                self.lineEditWO.setText(data["updateSO"].get("SO"))
