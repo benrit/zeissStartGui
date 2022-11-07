@@ -19,7 +19,7 @@ class JsonContainer:
             with open(self.dialogFilepath + "\\dialog.json", 'r') as inFile:
                 self._jsonData = json.load(inFile)
         else:
-            self._jsonData = {"Dialog" : {"name":"","MSN":"","CAV":"","partID":planId,"WO":"","SO":"","comment":"","startRun":"", "endRun":"" ,"xOffset":"0.0000","yOffset":"0.0000","zOffset":"0.0000","operation":"default", "status":"ok"}, 
+            self._jsonData = {"Dialog" : {"name":"","MSN":"","CAV":"","partID": planId,"WO":"","SO":"","comment":"","startRun":"", "endRun":"" ,"xOffset":"0.0000","yOffset":"0.0000","zOffset":"0.0000","operation":"default", "status":"ok"}, 
                             "Setup":{"nominalXoffset": "0.0000","nominalYoffset": "0.0000","nominalZoffset": "0.0000", "fileIndex":"MSN", "importScan": False, "autorun": False},
                             "Export":""}
 
@@ -35,7 +35,8 @@ class JsonContainer:
                 if item == "Setup":
                     for up in data.keys():
                         self._jsonData[up] = data[up]
-                
+
+    #xml is used for legacy reasons           
     def loadXML(self, filename):
         if os.path.isfile(filename) and "dialog" in filename:
             tree = ET.parse(filename)
@@ -79,16 +80,18 @@ class JsonContainer:
             file.write(xmlData)
             
     def save(self):
-        xOffset = float(self._jsonData.get('Dialog').get('xOffset'))
-        yOffset = float(self._jsonData.get('Dialog').get('yOffset'))
-        zOffset = float(self._jsonData.get('Dialog').get('zOffset'))
+        dialog = self._jsonData.get('Dialog')
+        xOffset = float(dialog.get('xOffset'))
+        yOffset = float(dialog.get('yOffset'))
+        zOffset = float(dialog.get('zOffset'))
         
-        nominalXOffset = float(self._jsonData.get('Setup').get('nominalXoffset'))
-        nominalYOffset = float(self._jsonData.get('Setup').get('nominalYoffset'))
-        nominalZOffset = float(self._jsonData.get('Setup').get('nominalZoffset'))
+        setup = self._jsonData.get('Setup')
+        nominalXOffset = float(setup.get('nominalXoffset'))
+        nominalYOffset = float(setup.get('nominalYoffset'))
+        nominalZOffset = float(setup.get('nominalZoffset'))
 
-        importScan = int(self._jsonData.get('Setup').get('importScan', 0))
-        autorun = int(self._jsonData.get('Setup').get('autorun', 0))
+        importScan = int(setup.get('importScan', 0))
+        autorun = int(setup.get('autorun', 0))
 
         with open(self.planFolder + "\\inspection_start_pcm.txt", "w") as ispFile:
             ispFile.write(f'xOffset = {round(calc(nominalXOffset, xOffset), 4)}\n')

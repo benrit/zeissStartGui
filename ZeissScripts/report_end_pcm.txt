@@ -9,7 +9,7 @@ dmesn = getRecordHead("dmesn")
 //   aid = getActualInspectionDir() + "\\temp\\geoactuals\\"
 
 //   parameters = " -fd " + fd
-//if (dmesn <> "501717") then
+//if (dmesn <> "000000") then
     systemCallWithWait("O:\\Measurement\\Scripts\\zeiss\\python.exe o:\\Measurement\\Scripts\\ZeissConverter\\ZeissConverter.py" + " -fd " + fd + " -rd " + "O:\\Measurement\\_resultDatabase\\" + " -f " + chr(34)+planid + chr(34)+" -pd " + rd)
 //endif
 	systemCallWithWait("C:\\ZEISS\\cmmApp\\zeissConverter.exe" + " -rd " + rd + " -pd " + pd + " -f " + chr(34) + planid + chr(34) + " -fd " + fd)

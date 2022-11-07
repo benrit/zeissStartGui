@@ -10,7 +10,7 @@ qr = qrcode.QRCode(
 )
 
 x = {"name": "BenR",
-    "msn": [x+1000 for x in range(200)]
+    "msn": "123"
     }
 
 j = json.dumps(x)

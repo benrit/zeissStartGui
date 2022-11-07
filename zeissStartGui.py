@@ -1,9 +1,10 @@
-import sys, os, json, time
+import sys, os
 from PyQt5.QtWidgets import QApplication, QDialog
 from gui import Ui_Dialog
 from setup import SetupDialog
 from jsonContainer import JsonContainer
-import time
+
+
 
 def saveDialog(jsonData, data):
     jsonData.update(data.getData())
@@ -21,11 +22,13 @@ def setupDialog(jsonData):
 
 resultFolder = "O:/Measurement/Results/"
 
-currentPlanFolder = "O:\\Measurement\\Program\\test"
+currentPlanFolder = "O:/Measurement/Program/test"
 planid = "test"
 
 
 if __name__ == "__main__":
+
+
     print("sys.argv " + " ".join(sys.argv))
     for x, arg in enumerate(sys.argv):
         if "-pd" in arg:

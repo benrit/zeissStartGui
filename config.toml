@@ -1,0 +1,3 @@
+[config]
+operations = ["default", "Setup", "EDM","EDM Ingersol 781","EDM Ingersol 782","EDM Charmilles 550","WireEDM","WireEDM Cut 2000","WireEDM Charmilles 440", "HSC","Grinding","Jig-Grinding","Cylindrical Grinding","Turning","Milling", "Electrode","Polishing","Assembly","Repair", "Valve Pin", "Incomming Measurement","Final Measurement" ]
+resultFolder = "O:/Measurement/Results/"
