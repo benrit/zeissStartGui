@@ -14,7 +14,36 @@ import string
 
 import time, json
 
+def createTextBox(label:str, layout: QtWidgets.QBoxLayout, parent:QtWidgets.QWidget, editBox: QtWidgets.QWidget = QtWidgets.QLineEdit):
+
+    horizontalLayout = QtWidgets.QHBoxLayout()
+    labelName = QtWidgets.QLabel(parent)
+    labelName.setText(label)
+    labelName.setMinimumSize(QtCore.QSize(60, 0))
+    horizontalLayout.addWidget(labelName)
+    lineEdit = editBox(parent)
+    horizontalLayout.addWidget(lineEdit)
+    layout.addLayout(horizontalLayout)
+    
+    return lineEdit
+
+def createNumberBox(label:str, layout: QtWidgets.QBoxLayout, parent:QtWidgets.QWidget):
+    
+    labelOffset = QtWidgets.QLabel(parent)
+    labelOffset.setText(label)
+    layout.addWidget(labelOffset)
+    lineEditOffset = NumberEdit(parent)
+    lineEditOffset.setMinimumSize(QtCore.QSize(100, 0))
+    lineEditOffset.setMaximumSize(QtCore.QSize(100, 16777215))
+    layout.addWidget(lineEditOffset)
+
+    return lineEditOffset
+
+
 class Ui_Dialog(object):
+    coatingCheckBox = None
+    coatingEnabled = None
+
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
         Dialog.setEnabled(True)
@@ -27,92 +56,38 @@ class Ui_Dialog(object):
         self.horizontalLayout_7 = QtWidgets.QHBoxLayout()
         self.groupBox = QtWidgets.QGroupBox(Dialog)
         self.verticalLayout = QtWidgets.QVBoxLayout(self.groupBox)
-        self.horizontalLayout = QtWidgets.QHBoxLayout()
-        self.labelName = QtWidgets.QLabel(self.groupBox)
-        self.labelName.setMinimumSize(QtCore.QSize(80, 0))
-        self.horizontalLayout.addWidget(self.labelName)
-        self.lineEditName = QtWidgets.QLineEdit(self.groupBox)
-        self.horizontalLayout.addWidget(self.lineEditName)
-        self.verticalLayout.addLayout(self.horizontalLayout)
-        self.horizontalLayout_2 = QtWidgets.QHBoxLayout()
-        self.labelMSN = QtWidgets.QLabel(self.groupBox)
-        self.labelMSN.setMinimumSize(QtCore.QSize(80, 0))
-        self.horizontalLayout_2.addWidget(self.labelMSN)
-        self.lineEditMSN = MSNEdit(self.groupBox)
-        self.horizontalLayout_2.addWidget(self.lineEditMSN)
-        self.verticalLayout.addLayout(self.horizontalLayout_2)
 
-        self.horizontalLayout_3 = QtWidgets.QHBoxLayout()
-        self.labelCav = QtWidgets.QLabel(self.groupBox)
-        self.labelCav.setMinimumSize(QtCore.QSize(80, 0))
-        self.horizontalLayout_3.addWidget(self.labelCav)
-        self.lineEditCav = QtWidgets.QLineEdit(self.groupBox)
-        self.horizontalLayout_3.addWidget(self.lineEditCav)
-        self.verticalLayout.addLayout(self.horizontalLayout_3)
+        self.lineEditName = createTextBox("Name:", self.verticalLayout, self.groupBox)
+        self.lineEditMSN = createTextBox("MSN:", self.verticalLayout, self.groupBox, editBox=MSNEdit)
+        self.lineEditCav = createTextBox("CAV:", self.verticalLayout, self.groupBox)
 
-        self.horizontalLayout_4 = QtWidgets.QHBoxLayout()
-        self.labelPartId = QtWidgets.QLabel(self.groupBox)
-        self.labelPartId.setMinimumSize(QtCore.QSize(80, 0))
-        
-        self.horizontalLayout_4.addWidget(self.labelPartId)
-        self.lineEditPartId = QtWidgets.QLineEdit(self.groupBox)
+        self.lineEditPartId = createTextBox("PartID:", self.verticalLayout, self.groupBox)
         self.lineEditPartId.setReadOnly(True)
-        self.horizontalLayout_5 = QtWidgets.QHBoxLayout()
-        self.horizontalLayout_4.addWidget(self.lineEditPartId)
-        self.verticalLayout.addLayout(self.horizontalLayout_4)
-        self.labelWO = QtWidgets.QLabel(self.groupBox)
-        self.labelWO.setMinimumSize(QtCore.QSize(80, 0))
-        self.horizontalLayout_5.addWidget(self.labelWO)
-        self.lineEditWO = QtWidgets.QLineEdit(self.groupBox)
-        self.horizontalLayout_5.addWidget(self.lineEditWO)
-        self.verticalLayout.addLayout(self.horizontalLayout_5)
-        self.horizontalLayout_8 = QtWidgets.QHBoxLayout()
-        self.labelSO = QtWidgets.QLabel(self.groupBox)
-        self.labelSO.setMinimumSize(QtCore.QSize(80, 0))
-        self.horizontalLayout_8.addWidget(self.labelSO)
-        self.lineEditSO = QtWidgets.QLineEdit(self.groupBox)
-        self.horizontalLayout_8.addWidget(self.lineEditSO)
-        self.verticalLayout.addLayout(self.horizontalLayout_8)
+        
+        self.lineEditWO = createTextBox("WO:", self.verticalLayout, self.groupBox)
+        self.lineEditSO = createTextBox("SO:", self.verticalLayout, self.groupBox)
+
+
         self.horizontalLayout_6 = QtWidgets.QHBoxLayout()
         self.labelOperation = QtWidgets.QLabel(self.groupBox)
-        self.labelOperation.setMinimumSize(QtCore.QSize(80, 0))
-        self.labelOperation.setMaximumSize(QtCore.QSize(80, 16777215))
+        self.labelOperation.setMinimumSize(QtCore.QSize(60, 0))
+        self.labelOperation.setMaximumSize(QtCore.QSize(60, 16777215))
         self.horizontalLayout_6.addWidget(self.labelOperation)
         self.comboBoxOperation = ComboBox(self.groupBox)
         self.horizontalLayout_6.addWidget(self.comboBoxOperation)
         self.verticalLayout.addLayout(self.horizontalLayout_6)
         self.horizontalLayout_10 = QtWidgets.QHBoxLayout()
-        self.labelXOffset = QtWidgets.QLabel(self.groupBox)
-        self.horizontalLayout_10.addWidget(self.labelXOffset)
-        self.lineEditXOffset = NumberEdit(self.groupBox)
-        self.lineEditXOffset.setMinimumSize(QtCore.QSize(100, 0))
-        self.lineEditXOffset.setMaximumSize(QtCore.QSize(100, 16777215))
-        self.horizontalLayout_10.addWidget(self.lineEditXOffset)
-        self.labelYOffset = QtWidgets.QLabel(self.groupBox)
-        self.horizontalLayout_10.addWidget(self.labelYOffset)
-        self.lineEditYOffset = NumberEdit(self.groupBox)
-        self.lineEditYOffset.setMinimumSize(QtCore.QSize(100, 0))
-        self.lineEditYOffset.setMaximumSize(QtCore.QSize(100, 16777215))
-        self.horizontalLayout_10.addWidget(self.lineEditYOffset)
-        self.labelZOffset = QtWidgets.QLabel(self.groupBox)
-        self.horizontalLayout_10.addWidget(self.labelZOffset)
-        self.lineEditZOffset = NumberEdit(self.groupBox)
-        self.lineEditZOffset.setMinimumSize(QtCore.QSize(100, 0))
-        self.lineEditZOffset.setMaximumSize(QtCore.QSize(100, 16777215))
-        self.horizontalLayout_10.addWidget(self.lineEditZOffset)
+
+        self.lineEditXOffset = createNumberBox("X Offset:", self.horizontalLayout_10, self.groupBox)
+        self.lineEditYOffset = createNumberBox("Y Offset:", self.horizontalLayout_10, self.groupBox)
+        self.lineEditZOffset = createNumberBox("Z Offset:", self.horizontalLayout_10, self.groupBox)
+
         self.verticalLayout.addLayout(self.horizontalLayout_10)
         
-        self.horizontalLayout_11 = QtWidgets.QHBoxLayout()
-        self.labelTags = QtWidgets.QLabel(self.groupBox)
-        self.horizontalLayout_11.addWidget(self.labelTags)
-
-        self.lineEditTags = QtWidgets.QLineEdit(self.groupBox)
-        self.lineEditTags.setMinimumSize(QtCore.QSize(100, 0))
-        self.horizontalLayout_11.addWidget(self.lineEditTags)
-        self.verticalLayout.addLayout(self.horizontalLayout_11)
-        self.generateRandomNumberButton = QtWidgets.QPushButton("Generate")
-        self.horizontalLayout_11.addWidget(self.generateRandomNumberButton)
-
+        self.lineEditTags = createTextBox("Tags:", self.verticalLayout, self.groupBox)
+        
+        # self.coatingWidget = QtWidgets.QWidget()
+        # self.verticalLayout.addWidget(self.coatingWidget)
 
         self.horizontalLayout_7.addWidget(self.groupBox)
         self.groupBox_2 = QtWidgets.QGroupBox(Dialog)
@@ -131,14 +106,14 @@ class Ui_Dialog(object):
         self.horizontalLayout_9.addItem(spacerItem)
         self.buttonBox = QtWidgets.QDialogButtonBox(Dialog)
         self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
-        self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel|QtWidgets.QDialogButtonBox.Ok)
+        self    .buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel|QtWidgets.QDialogButtonBox.Ok)
         self.horizontalLayout_9.addWidget(self.buttonBox)
         self.verticalLayout_2.addLayout(self.horizontalLayout_9)
-
+        
         self.retranslateUi(Dialog)
         self.buttonBox.accepted.connect(Dialog.accept)
         self.buttonBox.rejected.connect(Dialog.reject)
-        self.generateRandomNumberButton.clicked.connect(self.generateRandomNumber)
+        # self.generateRandomNumberButton.clicked.connect(self.generateRandomNumber)
 
         QtCore.QMetaObject.connectSlotsByName(Dialog)
         Dialog.setTabOrder(self.lineEditName, self.lineEditMSN)
@@ -152,27 +127,30 @@ class Ui_Dialog(object):
         Dialog.setTabOrder(self.lineEditXOffset, self.lineEditTags)
         Dialog.setTabOrder(self.lineEditTags, self.toolButton)
 
+
+    def enableCoating(self, enable):
+        self.coatingEnabled = enable
+        if enable:
+            if not self.coatingCheckBox:
+                self.coatingCheckBox = QtWidgets.QCheckBox("Coated")
+                self.coatingCheckBox.setFont(QtGui.QFont("Sans Sarif", 12))
+                self.verticalLayout.addWidget(self.coatingCheckBox)
+                self.verticalLayout.update()
+        else:
+            if self.coatingCheckBox:
+                self.coatingCheckBox.deleteLater()
+                self.verticalLayout.update()
+                self.coatingCheckBox = None
+
+
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
         Dialog.setWindowTitle(_translate("Dialog", "Dialog"))
         self.groupBox.setTitle(_translate("Dialog", "Run Info"))
-        self.labelName.setText(_translate("Dialog", "Name:"))
-        self.labelMSN.setText(_translate("Dialog", "MSN:"))
-        self.labelCav.setText(_translate("Dialog", "CAV:"))
-        self.labelPartId.setText(_translate("Dialog", "PartID:"))
-        self.labelWO.setText(_translate("Dialog", "Work Order#:"))
-        self.labelSO.setText(_translate("Dialog", "Sales Order#:"))
         self.labelOperation.setText(_translate("Dialog", "Operation"))
-        self.labelXOffset.setText(_translate("Dialog", "X Offset:"))
-        self.labelYOffset.setText(_translate("Dialog", "Y Offset:"))
-        self.labelZOffset.setText(_translate("Dialog", "Z Offset:"))
-        self.labelTags.setText(_translate("Dialog", "Tags"))
         self.groupBox_2.setTitle(_translate("Dialog", "Comments"))
         self.toolButton.setText(_translate("Dialog", "Setup"))
 
-    def generateRandomNumber(self):
-        output_string = ''.join(random.SystemRandom().choice(string.ascii_letters + string.digits) for _ in range(10))
-        self.lineEditTags.setText(output_string)
 
     def setOperations(self, data):
         for index, item in enumerate(data):
@@ -192,6 +170,11 @@ class Ui_Dialog(object):
                 self.comboBoxOperation.model().setData(idx, QtGui.QColor(255,255,255), QtCore.Qt.TextColorRole)
 
     def getData(self):
+        
+        coating = False
+        if self.coatingEnabled:
+            coating = self.coatingCheckBox.isChecked() 
+
         data = {"Dialog":{
                         "name": self.lineEditName.text(),
                         "partID": self.lineEditPartId.text(),
@@ -207,14 +190,15 @@ class Ui_Dialog(object):
                         "endRun": "",
                         "operation": self.comboBoxOperation.currentText(),
                         "tags": self.lineEditTags.text(),
+                        "coating": coating,
                         "status": "measured"
                         }
                 }
         return data
 
     def update(self, data):
-        for x in data:
-            if x == "Dialog":
+        for item in data:
+            if item == "Dialog":
                 self.lineEditName.setText(data["Dialog"].get("name"))
                 self.lineEditMSN.setText(data["Dialog"].get("MSN"))
                 self.lineEditCav.setText(data["Dialog"].get("CAV"))
@@ -229,8 +213,15 @@ class Ui_Dialog(object):
                 index = self.comboBoxOperation.findText(data["Dialog"].get("operation"))
                 if index > -1:
                     self.comboBoxOperation.setCurrentIndex(index)
+
             
-            if x == "updateSOWO":
+            if item == "Setup":
+                enable = data["Setup"].get('coatingEnabled', False)
+                self.enableCoating(enable)
+                if enable:
+                    self.coatingCheckBox.setChecked(data['Dialog'].get('coating', False))
+
+            if item == "updateSOWO":
                 print(data)
                 self.lineEditWO.setText(data["updateWO"].get("WO"))
                 self.lineEditWO.setText(data["updateSO"].get("SO"))

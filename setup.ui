@@ -94,7 +94,7 @@
      <item>
       <widget class="QCheckBox" name="checkBoxQRCodeRequest">
        <property name="text">
-        <string>Request QR Code</string>
+        <string>Request QR</string>
        </property>
       </widget>
      </item>

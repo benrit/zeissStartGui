@@ -9,19 +9,20 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from mWitgets import NumberEdit
-
+import os
 
 class SetupDialog(QtWidgets.QDialog):
 
-    
-
     def setupUi(self):
         self.setObjectName("self")
-        self.resize(400, 200)
-        self.setMinimumSize(QtCore.QSize(400, 200))
-        self.setMaximumSize(QtCore.QSize(400, 200))
+        self.resize(600, 300)
+        self.setMinimumSize(QtCore.QSize(600, 300))
+        self.setMaximumSize(QtCore.QSize(600, 300))
         self.setEnabled(True)
-        self.verticalLayout_2 = QtWidgets.QVBoxLayout(self)
+
+        self.horizontalLayout_main = QtWidgets.QHBoxLayout(self)
+
+        self.verticalLayout_2 = QtWidgets.QVBoxLayout()
         self.verticalLayout_2.setObjectName("verticalLayout_2")
         self.horizontalLayout_3 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_3.setObjectName("horizontalLayout_3")
@@ -83,18 +84,43 @@ class SetupDialog(QtWidgets.QDialog):
         self.autorunLabel = QtWidgets.QLabel(self)
         self.autorunLabel.setMinimumSize(QtCore.QSize(40, 0))
         self.horizontalLayout_8.addWidget(self.autorunLabel)
-
         self.autorunCheckBox = QtWidgets.QCheckBox(self)
         self.horizontalLayout_8.addWidget(self.autorunCheckBox)
         self.verticalLayout_2.addLayout(self.horizontalLayout_8)
+        
 
+        self.horizontalLayout_9 = QtWidgets.QHBoxLayout()
+        self.horizontalLayout_9.setObjectName("horizontalLayout_9")
+        self.coatingLabel = QtWidgets.QLabel(self)
+        self.coatingLabel.setMaximumWidth(200)
+        self.horizontalLayout_9.addWidget(self.coatingLabel)
+        self.coatingCheckBox = QtWidgets.QCheckBox(self)
+        self.horizontalLayout_9.addWidget(self.coatingCheckBox)
+        self.verticalLayout_2.addLayout(self.horizontalLayout_9)
 
+        self.horizontalLayout_10 = QtWidgets.QHBoxLayout()
+        self.coatingAmountLabel = QtWidgets.QLabel(self)
+        self.coatingAmountLabel.setMinimumSize(QtCore.QSize(100, 0))
+        self.horizontalLayout_10.addWidget(self.coatingAmountLabel)
+        self.coutingAmount = NumberEdit(self)
+        self.horizontalLayout_10.addWidget(self.coutingAmount)
+        self.verticalLayout_2.addLayout(self.horizontalLayout_10)
+
+        self.verticalLayout_2.addStretch()
 
         self.buttonBox = QtWidgets.QDialogButtonBox(self)
         self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
-        self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel|QtWidgets.QDialogButtonBox.Ok)
+        self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel | QtWidgets.QDialogButtonBox.Ok)
         self.buttonBox.setObjectName("buttonBox")
         self.verticalLayout_2.addWidget(self.buttonBox)
+    
+
+
+        self.horizontalLayout_main.addLayout(self.verticalLayout_2)
+        self.label = QtWidgets.QLabel()
+        # self.label.setFixedWidth(400)
+        self.label.setFixedWidth(300)
+        self.horizontalLayout_main.addWidget(self.label)
 
         self.retranslateUi(self)
         self.buttonBox.accepted.connect(self.accept)
@@ -111,7 +137,8 @@ class SetupDialog(QtWidgets.QDialog):
         self.importScanLabel.setText(_translate("Dialog", "Import Scan"))
         self.autorunLabel.setText(_translate("Dialog", "Autorun"))
         self.comboBoxIndex.addItems(["MSN", "CAV", "partnb"])
-        
+        self.coatingLabel.setText(_translate("Dialog", "Coating"))
+        self.coatingAmountLabel.setText(_translate("Dialog", "Coating Amount"))
         
     def setData(self, data):
         jsonData = data._jsonData
@@ -121,7 +148,14 @@ class SetupDialog(QtWidgets.QDialog):
         self.comboBoxIndex.setCurrentText(jsonData["Setup"].get("fileIndex", "MSN"))
         self.importScanCheckBox.setChecked(jsonData['Setup'].get("importScan", False))
         self.autorunCheckBox.setChecked(jsonData['Setup'].get('autorun', False))
+        self.coatingCheckBox.setChecked(jsonData['Setup'].get("coatingEnabled", False))
+        self.coutingAmount.setText(jsonData['Setup'].get("coatingAmount", '0.0'))
 
+
+    def setPicture(self, path):
+        pixmap = QtGui.QPixmap(path)
+        pixmap = pixmap.scaled(400, 300, QtCore.Qt.KeepAspectRatio)
+        self.label.setPixmap(pixmap)
 
 
     def getData(self):
@@ -131,9 +165,12 @@ class SetupDialog(QtWidgets.QDialog):
                 'nominalZoffset': self.lineEditNomZOffset.text(),
                 'fileIndex': self.comboBoxIndex.currentText(),
                 'importScan': self.importScanCheckBox.isChecked(),
-                'autorun': self.autorunCheckBox.isChecked()
+                'autorun': self.autorunCheckBox.isChecked(),
+                'coatingEnabled': self.coatingCheckBox.isChecked(),
+                'coatingAmount': self.coutingAmount.text()
             },
             "Export": ""
         }
         
+
 

@@ -19,9 +19,10 @@ class JsonContainer:
             with open(self.dialogFilepath + "\\dialog.json", 'r') as inFile:
                 self._jsonData = json.load(inFile)
         else:
-            self._jsonData = {"Dialog" : {"name":"","MSN":"","CAV":"","partID": planId,"WO":"","SO":"","comment":"","startRun":"", "endRun":"" ,"xOffset":"0.0000","yOffset":"0.0000","zOffset":"0.0000","operation":"default", "status":"ok"}, 
-                            "Setup":{"nominalXoffset": "0.0000","nominalYoffset": "0.0000","nominalZoffset": "0.0000", "fileIndex":"MSN", "importScan": False, "autorun": False},
+            self._jsonData = {"Dialog" : {"name":"","MSN":"","CAV":"","partID": planId,"WO":"","SO":"","comment":"","startRun":"", "endRun":"" ,"xOffset":"0.0000","yOffset":"0.0000","zOffset":"0.0000","operation":"default", "status":"ok","coating": False}, 
+                            "Setup":{"nominalXoffset": "0.0000","nominalYoffset": "0.0000","nominalZoffset": "0.0000", "fileIndex":"MSN", "importScan": False, "autorun": False, "coatingEnabled": False, "coatingAmount": '0.0'},
                             "Export":""}
+
 
     def update(self, data):
         if isinstance(data, dict):
@@ -89,6 +90,11 @@ class JsonContainer:
         nominalXOffset = float(setup.get('nominalXoffset'))
         nominalYOffset = float(setup.get('nominalYoffset'))
         nominalZOffset = float(setup.get('nominalZoffset'))
+        
+        coatingAmount = 0.0
+        if not dialog.get('coating', False):
+            coatingAmount = float(setup.get('coatingAmount', 0.0)) 
+
 
         importScan = int(setup.get('importScan', 0))
         autorun = int(setup.get('autorun', 0))
@@ -97,13 +103,19 @@ class JsonContainer:
             ispFile.write(f'xOffset = {round(calc(nominalXOffset, xOffset), 4)}\n')
             ispFile.write(f'yOffset = {round(calc(nominalYOffset, yOffset), 4)}\n')
             ispFile.write(f'zOffset = {round(calc(nominalZOffset, zOffset), 4)}\n')
+            ispFile.write(f'coating = {round(coatingAmount, 4)}\n')
+
             if autorun == 0:
                 ispFile.write(f'setRecordHead("order","{self._jsonData.get("Dialog").get("MSN")}")\n')
-            ispFile.write("starttime =  millisecondClockValue() / 1000\n")
-            ispFile.write(f"copyScanData = {importScan}\n")
-            ispFile.write(f"useConverter = true\n")
+
             if autorun == 1:
                 fileIndex = self._jsonData['Setup'].get("fileIndex", 'MSN')
+                ispFile.write('planid = getRecordHead("planid")\n')
+                temp = r'''str = chr(34) + "{\" + chr(34) + "Dialog\" + chr(34) + ": {\" + chr(34) +"startRun\" +chr(34) + ":\" + chr(34) + "$timestamp\" + chr(34)+"}}" + chr(34)
+systemCall("O:/Measurement/Scripts/json_updater/json_updater.exe " + "O:/Measurement/_resultDatabase/" + planid + "/dialog.json " + str )
+'''
+                ispFile.write(temp)
+
                 if fileIndex == 'MSN':
                     ispFile.write(f"autorun = 1\n")
                 if fileIndex == 'CAV':
@@ -117,7 +129,7 @@ class JsonContainer:
             os.makedirs(self.dialogFilepath)
 
         with open(self.dialogFilepath+ "\\dialog.json", 'w') as file:
-            json.dump(self._jsonData, file, indent=2)
+            json.dump(self._jsonData, file)
 
     def readJson(self, data):
         j = json.loads(data)
